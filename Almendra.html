@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title> Feliz Cumpleaños</title>
+    <style>
+        body {
+            font-family: 'Lucida Console', monospace;
+            background-color: #E0F2F1; 
+            color: #333;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            flex-direction: column;
+            position: relative;
+        }
+        .envoltorio {
+            display: none;
+            background-color: #26A69A; 
+            border: 2px solid black;
+            border-radius: 8px;
+            position: relative;
+            width: 300px;
+            height: 200px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            animation: aparecer 0.5s forwards;
+            overflow: hidden;
+        }
+        @keyframes aparecer {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+      
+        .carta {
+            display: none;
+            background-color: #fff;
+            border: 2px solid black;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 600px;
+            max-height: 800px;
+            overflow-y: auto;
+            margin: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            animation: bajar 0.5s forwards;
+            color: #333;
+            font-family: 'Lucida Console', monospace;
+        }
+        @keyframes bajar {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .boton {
+            width: 100px;
+            height: 50px;
+            background-color: #26A69A;
+            color: white;
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: 'Lucida Console', monospace;
+            cursor: pointer;
+            text-align: center;
+            margin: 20px auto;
+            display: block;
+            transition: background-color 0.3s ease;
+            position: relative;
+            overflow: visible;
+        }
+        .boton:hover {
+            background-color: #26A69A;
+        }
+        .imagen-container {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .corazon {
+            position: absolute;
+            font-size: 24px;
+        }
+        .corazon.tl {
+            top: 10px;
+            left: 10px;
+        }
+        .corazon.tr {
+            top: 10px;
+            right: 10px;
+        }
+        .mensaje-flotante {
+            position: fixed;
+            color: #00BFA6;
+            font-size: 18px;
+            font-weight: bold;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+            text-shadow: 0 0 5px #ff99cc;
+            z-index: 1000;
+            opacity: 1;
+        }
+        @keyframes subirConBalanceo {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--x-move, 0), -160px);
+            }
+        }
+        .imagen-container img {
+    width: 100%;
+    height: auto;
+    max-height: 250px;     /* Ajusta si quieres que se vea más o menos grande */
+    object-fit: contain;   /* Muestra toda la imagen sin recortarla */
+    border: none;          /* Sin borde */
+    border-radius: 8px;    /* Opcional: bordes suaves */
+    background: none;      /* Elimina el fondo del contenedor */
+    display: block;
+    margin: 0 auto;
+}
+
+        
+    </style>
+    <script>
+        function mostrarEnvoltorio() {
+            document.getElementById('envoltorio').style.display = 'block';
+            document.getElementById('boton').style.display = 'none';
+            document.getElementById('botonAbrir').style.display = 'block';
+        }
+
+        function abrirCarta() {
+            document.getElementById('envoltorio').style.display = 'none';
+            document.getElementById('carta').style.display = 'block';
+            document.getElementById('botonAbrir').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const botonSinFuncion = document.querySelector('#carta .boton:not(#botonAbrir)');
+            const mensajes = [
+                "Estoy muy orgulloso de ti",
+                "Eres increíble Almendrita",
+                "Eres la mejor en todo lo que haces",
+                "Morenita hermosa",
+                "Sigue brillando siempre",
+                "Eres una persona maravillosa",
+            ];
+
+            botonSinFuncion.addEventListener('click', (e) => {
+                const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
+                const mensajeDiv = document.createElement('div');
+                mensajeDiv.className = 'mensaje-flotante';
+                mensajeDiv.textContent = mensaje;
+
+                
+                document.body.appendChild(mensajeDiv);
+                const rect = botonSinFuncion.getBoundingClientRect();
+                const botonCenterX = rect.left + rect.width / 2;
+                const mensajeWidth = mensajeDiv.offsetWidth;
+                mensajeDiv.style.left = (botonCenterX - mensajeWidth / 2) + 'px';
+                mensajeDiv.style.top = rect.top + 'px';
+                mensajeDiv.style.transformOrigin = '50% 100%';
+                const randomX = (Math.random() * 100 - 50).toFixed(2) + 'px';
+                mensajeDiv.style.setProperty('--x-move', randomX);
+                mensajeDiv.style.animation = 'subirConBalanceo 2s forwards';
+                mensajeDiv.addEventListener('animationend', () => {
+                    mensajeDiv.remove();
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <button id="boton" class="boton" onclick="mostrarEnvoltorio()"> ❤️ </button>
+    <div id="envoltorio" class="envoltorio">
+        <div class="solapa"></div> 
+    </div>
+    <button id="botonAbrir" class="boton" onclick="abrirCarta()" style="display: none;">Abrir</button>
+    <div id="carta" class="carta">
+        <h1> ¡Feliz Cumpleaños!  </h1>
+        <p>
+            Holaaa,
+        </p>
+        <p>
+            Sé que hoy es una fecha muy especial para ti, y quiero aprovechar esta carta para poder decirte que espero que tengas un gran día,
+            lleno de amor, alegría y momentos inolvidables. Eres una persona increíble y mereces todo lo mejor en tu cumpleaños hoy y siempre.
+        </p>
+        <p>
+            Tal vez aún no nos conocemos tanto como me gustaría, pero quiero que sepas que me pareces una persona maravillosa, 
+            auténtica y llena de energía positiva. Me encantaría poder conocerte más con el tiempo y compartir muchísimos momentos juntos.
+        </p>
+        <p>
+            Espero que este día esté lleno de sorpresas, risas y personas que te hagan sentir especial, porque sin duda lo mereces. 
+            Que cada deseo que pidas hoy se convierta en una meta cumplida, y que nunca te falte la felicidad en tu vida.
+            
+        </p>
+        <p>
+            Espero y quiero que disfrutes muchísimo tu día y espero que este pequeño detalle te haga sonreír,
+            tanto como tú me haces sonreír a mí cada vez que pienso en ti.
+        </p>
+        
+        <p class="firma">
+            Con cariño,<br />
+           Naoky
+        </p>
+
+        <div class="imagen-container">
+            <img src="Almendra(1).jpeg" alt="stich" />
+        </div>
+        <div style="text-align: center;">
+            <button class="boton">Dale click</button>
+        </div>
+        <div class="corazon tl" aria-hidden="true">❤️</div>
+        <div class="corazon tr" aria-hidden="true">❤️</div>
+    </div>
+</body>
+</html>
+
